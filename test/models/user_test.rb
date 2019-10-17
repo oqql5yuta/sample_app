@@ -74,4 +74,9 @@ class UserTest < ActiveSupport::TestCase
     @user.password = @user.password_confirmation = "a" * 5
     assert_not @user.valid?
   end
+  
+# loginに関する制約
+  test "authenticated? should return false for a user with nil digest" do       # authenticatedメソッドで記憶ダイジェストを暗号化できるか検証
+    assert_not @user.authenticated?('')                                         # @userのユーザーの記憶ダイジェストと引数で受け取った値が同一ならfalse、異なるならtrueを返す
+  end
 end
