@@ -10,10 +10,11 @@ class UsersController < ApplicationController
   end
   
   def create
-    @user = User.new(user_params)    # 実装は終わっていないことに注意!
+    @user = User.new(user_params)                                               # newビューにて送ったformの中身(nameやemailの値)をuser_paramsで受け取り、ユーザーオブジェクトを生成、@userに代入   
     if @user.save
-      redirect_to @user
-      flash[:success] = "Welcome to the Sample App!"
+      log_in @user                                                              # log_inメソッド(ログイン)の引数として@user(ユーザーオブジェクト)を渡す。要はセッションに渡すってこと
+      flash[:success] = "Welcome to the Sample App!"                            # flashの:successシンボルに成功時のメッセージを代入
+      redirect_to @user                                                         # (user_url(@user) つまり/users/idへ飛ばす(https://qiita.com/Kawanji01/items/96fff507ed2f75403ecb)を参考
     else
       render 'new'
     end
@@ -23,6 +24,6 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:name, :email, :password,
-                                   :password_confirmation)
+                                  :password_confirmation)
     end
 end
