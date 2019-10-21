@@ -3,26 +3,26 @@
     <%= link_to "sample app", root_path, id: "logo" %>
     <nav>
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "Home",   root_path %></li>
-        <li><%= link_to "Help",   help_path %></li>
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Help", help_path %></li>
         <% if logged_in? %>                                                     <!-- ユーザーがログインしている場合の処理 -->
-          <li><%= link_to "Users", '#' %></li>                                  <!-- ユーザー一覧リンク-->
+          <li><%= link_to "Users", users_path%></li>                            <!-- ユーザー一覧リンク-->
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">         <!-- ドロップダウンメニューを適用-->
               Account <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
               <li><%= link_to "Profile", current_user %></li>                   <!-- ログインユーザー用のプロフィールページへのリンク-->
-              <li><%= link_to "Settings", '#' %></li>
+              <li><%= link_to "Settings", edit_user_path(current_user) %></li>  <!-- ユーザーページ編集へのリンク -->
               <li class="divider"></li>
               <li>
                 <%= link_to "Log out", logout_path, method: :delete %>          <!-- ログアウトリンク-->
               </li>
             </ul>
           </li>
-          <% else %>                                                            <!-- ログインしていない場合-->
-            <li><%= link_to "Log in", login_path %></li>                        <!-- ログインURLを自動生成-->
-          <% end %>
+        <% else %>                                                              <!-- ログインしていない場合-->
+          <li><%= link_to "Log in", login_path %></li>                          <!-- ログインURLを自動生成-->
+        <% end %>
       </ul>
     </nav>
   </div>

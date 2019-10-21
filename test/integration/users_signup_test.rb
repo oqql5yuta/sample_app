@@ -9,11 +9,11 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                             email: "user@invalid",
                                             password:              "foo",
                                             password_confirmation: "bar" } }
-  end
+      end
     assert_template 'users/new'                                                 # newアクションが描画(つまり@user.save失敗)されていればtrue、なければfalse
     assert_select 'div#error_explanation'                                       # divタグの中のid error_explanationをが描画されていれば成功
     assert_select 'div.field_with_errors'                                       # divタグの中のclass field_with_errorsが描画されていれば成功
-    assert_select  'form[action="/signup"]'                                     # formタグの中に`/signup`があれば成功
+    assert_select 'form[action="/signup"]'                                      # formタグの中に`/signup`があれば成功
   end
   
     test "valid signup information" do                                          # 新規登録が成功（フォーム送信）したかのテスト

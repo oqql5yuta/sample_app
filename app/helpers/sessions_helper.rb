@@ -19,6 +19,11 @@ module SessionsHelper
   #   end
   # end
   
+    # 渡されたユーザーがログイン済みユーザーであればtrueを返す
+  def current_user?(user)
+    user == current_user
+  end
+  
   # 記憶トークンcookieに対応するユーザーを返す
   def current_user
     if (user_id = session[:user_id])                                            # 一時的なセッションユーザーがいる場合処理を行い、user_idに代入
@@ -50,5 +55,16 @@ module SessionsHelper
     forget(current_user)                                                        # 引数として現在のログインユーザーを受け取り、forgetメソッドで記憶ダイジェストを削除
     session.delete(:user_id)                                                    # セッションのuser_idを削除する
     @current_user = nil                                                         # 現在のログインユーザーをnil（空に）する
+  end
+  
+  # 記憶したURL（もしくはデフォルト値）にリダイレクト
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
+  # アクセスしようとしたURLを覚えておく
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?             # :forwarding_urlキーにリクエスト先のURLを、GETリクエストが送られた時だけ代入
   end
 end
